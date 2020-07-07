@@ -1,0 +1,132 @@
+@CHARSET "ISO-8859-1";
+
+@media only screen and (min-width: 993px) {
+	.container {
+		width: 85%;
+	}
+}
+
+html{
+	font-family: "Segoe UI" !important;
+}
+
+h5{
+	margin: 0px 0px 10px 0px !important;
+}
+
+.card-panel{
+	padding: 20px !important;
+}
+
+header, main, footer {
+	padding-left: 250px;
+}
+
+@media only screen and (max-width : 992px) {
+	header, main, footer {
+		padding-left: 0;
+	}
+}
+
+.container{
+	width: 95% !important;
+}
+
+.codediv {
+	background-color: #f0f8ff;
+	padding-left: 5px;
+	margin: 5px;
+	border: 1px inset;
+	white-space: pre-wrap;
+}
+
+.bgcolor {
+	background-color: #0061ab !important;
+}
+
+.cardbgcolor{
+	background-color: #d0dae0 !important;
+}
+
+table.fullbordered>thead>tr, table.fullbordered>tbody>tr {
+	border: 1px solid #d0d0d0;
+}
+
+.comment {
+	background-color: #d3d3d3;
+	padding: 10px;
+}
+
+.btn {
+	background-color: #0061ab;
+}
+
+.btn:HOVER {
+	background-color: #0061ab;
+	opacity: .8;
+}
+
+.card-150h:HOVER {
+	background-color: #0061ab;
+	opacity: .8;
+	color: white;
+}
+
+.btn:FOCUS {
+	background-color: #0061ab;
+}
+
+.card-150h {
+	height: 150px;
+	cursor: pointer;
+}
+
+.logo {
+
+}
+
+.fieldTitle{
+	font-weight: bold;
+}
+
+hr.filedNameHr {
+  height: .25rem;
+  width: 25%;
+  margin: 0;
+  background: tomato;
+  border: none;
+  transition: .3s ease-in-out;
+}
+
+.iconlarge{
+	font-size: 50px !important;
+}
+
+.card-action{
+	background-color: #d0dae0 !important;
+}
+
+.card-action a {
+	color: #232f3e !important;
+}
+
+.card-title>i {
+	font-size: xx-large;
+}
+
+.row{
+	margin-bottom: 0px !important;
+}
+
+ul{
+	padding-left: 20px;
+}
+
+li{
+	list-style-type: disc;
+}
+
+.show-more-height {
+	height: 300px;
+	overflow: hidden;
+}
