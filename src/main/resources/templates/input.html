@@ -5,25 +5,28 @@
     <br/>
     <div class="card">
         <div class="card-content">
-            <div class="row">
-                Please Select files to updoad
+
+            <div th:if="${message}">
+                <h2 th:text="${message}"/>
             </div>
-            <br/>
-            <div class="row">
-                <div class="file-field input-field">
-                    <div class="btn">
-                        <span>File</span>
-                        <input type="file" multiple>
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" placeholder="Upload one or more files">
-                    </div>
-                </div>
+
+            <div>
+                <form method="POST" enctype="multipart/form-data" action="/process">
+                    <table>
+                        <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+                        <tr><td></td><td><input type="submit" class="btn" value="Upload" /></td></tr>
+                    </table>
+                </form>
             </div>
-            <br/>
-            <div class="row">
-                <input type="submit" class="btn">
+
+            <div>
+                <ul>
+                    <li th:each="file : ${files}">
+                        <a th:href="${file}" th:text="${file}" />
+                    </li>
+                </ul>
             </div>
+
         </div>
     </div>
 </div>
