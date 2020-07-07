@@ -1,7 +1,30 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org">
 <div class="container">
-	<br />
-	body
+    <br/>
+    <div class="card">
+        <div class="card-content">
+            <div class="row">
+                Please Select files to updoad
+            </div>
+            <br/>
+            <div class="row">
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>File</span>
+                        <input type="file" multiple>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="Upload one or more files">
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <input type="submit" class="btn">
+            </div>
+        </div>
+    </div>
+</div>
 </div>
