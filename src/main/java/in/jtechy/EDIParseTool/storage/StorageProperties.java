@@ -20,4 +20,13 @@ public class StorageProperties {
 		this.location = location;
 	}
 
+	private String downLoadLocation = "download-dir";
+
+	public String getDownLoadLocation() {
+		return downLoadLocation;
+	}
+
+	public void setDownLoadLocation(String downLoadLocation) {
+		this.downLoadLocation = downLoadLocation;
+	}
 }

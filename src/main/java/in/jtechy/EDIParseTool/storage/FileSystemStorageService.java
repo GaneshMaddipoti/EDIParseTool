@@ -22,10 +22,12 @@ import java.util.stream.Stream;
 public class FileSystemStorageService implements StorageService {
 
 	private final Path rootLocation;
+	private final Path downloadLocation;
 
 	@Autowired
 	public FileSystemStorageService(StorageProperties properties) {
 		this.rootLocation = Paths.get(properties.getLocation());
+		this.downloadLocation = Paths.get(properties.getDownLoadLocation());
 	}
 
 	@Override
@@ -35,15 +37,15 @@ public class FileSystemStorageService implements StorageService {
 			Files.copy(inputStream, this.rootLocation.resolve(filename),
 					StandardCopyOption.REPLACE_EXISTING);
 		}
-		EDIFileParser.parse(rootLocation.resolve(filename));
+		EDIFileParser.parse(rootLocation.resolve(filename), downloadLocation);
 	}
 
 	@Override
 	public Stream<Path> loadAll() {
 		try {
-			return Files.walk(this.rootLocation, 1)
-				.filter(path -> !path.equals(this.rootLocation))
-				.map(this.rootLocation::relativize);
+			return Files.walk(this.downloadLocation, 1)
+				.filter(path -> !path.equals(this.downloadLocation))
+				.map(this.downloadLocation::relativize);
 		}
 		catch (IOException e) {
 			throw new StorageException("Failed to read stored files", e);
@@ -53,7 +55,7 @@ public class FileSystemStorageService implements StorageService {
 
 	@Override
 	public Path load(String filename) {
-		return rootLocation.resolve(filename);
+		return downloadLocation.resolve(filename);
 	}
 
 	@Override
@@ -84,6 +86,7 @@ public class FileSystemStorageService implements StorageService {
 	public void init() {
 		try {
 			Files.createDirectories(rootLocation);
+			Files.createDirectories(downloadLocation);
 		}
 		catch (IOException e) {
 			throw new StorageException("Could not initialize storage", e);
