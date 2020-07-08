@@ -8,17 +8,13 @@
             <table>
                 <thead>
                 <tr>
-                    <th>Date</th>
                     <th>File Name</th>
-                    <th>Download</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                <tr>
-                    <td>Jul 7, 2020</td>
-                    <td>EDI_Result.xls</td>
-                    <td><a href="#!"><i class="material-icons">cloud_download</i> Download</a></td>
+                <tr th:each="file : ${files}">
+                    <td><a th:href="${file}" th:text="${file}" /></td>
                 </tr>
         </div>
     </div>

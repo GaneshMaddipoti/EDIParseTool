@@ -1,42 +1,24 @@
 package in.jtechy.EDIParseTool.storage;
 
-import in.jtechy.EDIParseTool.processor.EDIFileParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
-@Component
-public class StorageService {
+public interface StorageService {
 
-    @Autowired
-    private EDIFileParser ediFileParser;
+	void init();
 
-    public void init() {
+	void store(MultipartFile file) throws IOException;
 
-    }
+	Stream<Path> loadAll();
 
-    public void store(MultipartFile file) {
-        ediFileParser.parse(file);
-    }
+	Path load(String filename);
 
-    public Stream<Path> loadAll() {
-        return null;
-    }
+	Resource loadAsResource(String filename);
 
-    public Path load(String filename) {
-        return null;
-    }
-
-    public Resource loadAsResource(String filename) {
-        return null;
-    }
-
-    public void deleteAll() {
-
-    }
+	void deleteAll();
 
 }

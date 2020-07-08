@@ -6,25 +6,17 @@
     <div class="card">
         <div class="card-content">
 
-            <div th:if="${message}">
-                <h2 th:text="${message}"/>
-            </div>
-
             <div>
-                <form method="POST" enctype="multipart/form-data" action="/process">
+                <form method="POST" enctype="multipart/form-data" action="/upload">
                     <table>
                         <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-                        <tr><td></td><td><input type="submit" class="btn" value="Upload" /></td></tr>
+                        <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
                     </table>
                 </form>
             </div>
 
-            <div>
-                <ul>
-                    <li th:each="file : ${files}">
-                        <a th:href="${file}" th:text="${file}" />
-                    </li>
-                </ul>
+            <div th:if="${message}">
+                <h5 th:text="${message}"/>
             </div>
 
         </div>

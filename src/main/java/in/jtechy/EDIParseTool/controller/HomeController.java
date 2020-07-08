@@ -1,5 +1,6 @@
 package in.jtechy.EDIParseTool.controller;
 
+import in.jtechy.EDIParseTool.storage.StorageFileNotFoundException;
 import in.jtechy.EDIParseTool.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.stream.Collectors;
 
 @Controller
@@ -20,23 +22,20 @@ public class HomeController {
     @Autowired
     private StorageService storageService;
 
-    @RequestMapping("/")
-    public String start() {
-        return "home";
-    }
-
-    @RequestMapping("/home")
+    @GetMapping("/")
     public String home() {
         return "home";
     }
 
-    @GetMapping("/input")
-    public String input(Model model) {
-//        model.addAttribute("files", storageService.loadAll().map(
-//                path -> MvcUriComponentsBuilder.fromMethodName(HomeController.class,
-//                        "serveFile", path.getFileName().toString()).build().toUri().toString())
-//                .collect(Collectors.toList()));
-        return "input";
+    @GetMapping("/result")
+    public String listUploadedFiles(Model model) throws IOException {
+
+        model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(HomeController.class,
+                        "serveFile", path.getFileName().toString()).build().toUri().toString())
+                .collect(Collectors.toList()));
+
+        return "result";
     }
 
     @GetMapping("/files/{filename:.+}")
@@ -48,20 +47,25 @@ public class HomeController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/process")
+    @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+                                   Model model) throws IOException {
 
         storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
+        model.addAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:/";
+        return "home";
     }
 
-    @RequestMapping("/result")
-    public String dashboard() {
-        return "result";
+    @GetMapping("/input")
+    public String input() {
+        return "input";
+    }
+
+    @ExceptionHandler(StorageFileNotFoundException.class)
+    public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
+        return ResponseEntity.notFound().build();
     }
 
 }
