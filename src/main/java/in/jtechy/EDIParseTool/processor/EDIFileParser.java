@@ -15,7 +15,7 @@ import java.util.Map;
 public class EDIFileParser {
 
     public static void parse(Path inputFile, Path outputFilePath) throws IOException {
-        Map<String, Boolean> resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile.toFile()));
         String line = bufferedReader.readLine();
         while (line != null) {
@@ -26,6 +26,17 @@ public class EDIFileParser {
                 }
                 if (token.startsWith("UNB")) {
                     resultMap.put("UNB", true);
+                    String[] subTokens = token.split("\\+");
+                    int pivot = 1;
+                    for(String subToken : subTokens) {
+                        String[] childTokens = subToken.split(":");
+                        int flag = 1;
+                        for(String childToken : childTokens) {
+                            resultMap.put("UNB"+pivot+"."+flag, childTokens);
+                            flag++;
+                        }
+                        pivot++;
+                    }
                 }
             }
             line = bufferedReader.readLine();
@@ -33,7 +44,7 @@ public class EDIFileParser {
         writeToExcel(resultMap, outputFilePath);
     }
 
-    private static void writeToExcel(Map<String, Boolean> resultMap, Path outputFilePath) {
+    private static void writeToExcel(Map<String, Object> resultMap, Path outputFilePath) {
         Path excelFilePath = outputFilePath.resolve("EDIFACT_LOADSHEET.xls");
         try {
             FileInputStream inputStream = new FileInputStream(excelFilePath.toFile());
@@ -52,16 +63,14 @@ public class EDIFileParser {
             cell.setCellValue("test");
 
             cell = row.createCell(12); //UNA
-            if(resultMap.get("UNA")) {
+            if((boolean)resultMap.get("UNA")) {
                 cell.setCellValue("YES");
             }else {
                 cell.setCellValue("NO");
             }
-            cell = row.createCell(9); //UNB
-            if(resultMap.get("UNB")) {
-                cell.setCellValue("YES");
-            }else {
-                cell.setCellValue("NO");
+            cell = row.createCell(9); //UNB01.1
+            if((boolean)resultMap.get("UNB")) {
+                cell.setCellValue((String) resultMap.get("UNB01.1"));
             }
 
             inputStream.close();
