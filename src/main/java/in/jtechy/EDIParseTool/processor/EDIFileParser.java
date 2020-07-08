@@ -15,21 +15,25 @@ import java.util.Map;
 public class EDIFileParser {
 
     public static void parse(Path inputFile, Path outputFilePath) throws IOException {
-        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Boolean> resultMap = new HashMap<>();
         BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile.toFile()));
         String line = bufferedReader.readLine();
         while (line != null) {
-            if (line.startsWith("UNA")) {
-                resultMap.put("UNA", true);
-            } else if (line.startsWith("UNB")) {
-                resultMap.put("UNB", true);
+            String[] tokens = line.split("\'");
+            for(String token : tokens) {
+                if (token.startsWith("UNA")) {
+                    resultMap.put("UNA", true);
+                }
+                if (token.startsWith("UNB")) {
+                    resultMap.put("UNB", true);
+                }
             }
             line = bufferedReader.readLine();
         }
         writeToExcel(resultMap, outputFilePath);
     }
 
-    private static void writeToExcel(Map<String, Object> resultMap, Path outputFilePath) {
+    private static void writeToExcel(Map<String, Boolean> resultMap, Path outputFilePath) {
         Path excelFilePath = outputFilePath.resolve("EDIFACT_LOADSHEET.xls");
         try {
             FileInputStream inputStream = new FileInputStream(excelFilePath.toFile());
@@ -46,6 +50,19 @@ public class EDIFileParser {
 
             cell = row.createCell(++columnCount);
             cell.setCellValue("test");
+
+            cell = row.createCell(12); //UNA
+            if(resultMap.get("UNA")) {
+                cell.setCellValue("YES");
+            }else {
+                cell.setCellValue("NO");
+            }
+            cell = row.createCell(9); //UNB
+            if(resultMap.get("UNB")) {
+                cell.setCellValue("YES");
+            }else {
+                cell.setCellValue("NO");
+            }
 
             inputStream.close();
 
