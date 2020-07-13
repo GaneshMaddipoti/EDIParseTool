@@ -3,7 +3,7 @@
 	  xmlns:th="http://www.thymeleaf.org">
 
 <head th:fragment="copy">
-	<title>EDI Parse Tool</title>
+	<title>IBM TP Loadsheet Tool</title>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no"
@@ -13,7 +13,7 @@
 <body th:fragment="copy">
 <nav class="bgcolor">
 	<div class="container nav-wrapper">
-		<a href="#!" class="flow-text logo" id="ediParseTool"><strong>EDI Parse Tool</strong></a>
+		<a href="#!" class="flow-text logo" id="ediParseTool"><strong>IBM TP Loadsheet Tool</strong></a>
 		<a href="#" data-activates="slide-out" class="button-collapse"><i
 				class="material-icons" style="color: white">menu</i></a>
 	</div>
@@ -24,8 +24,11 @@
 				<i class="material-icons iconlarge" id="userPic">person_pin</i>
 			</div>
 		</li>
+		<li><a class="waves-effect logo" href="#!" id="edifact_inbound"><i
+				class="material-icons">cloud_upload</i>Inbound EDIFACT</a></li>
+
 		<li><a class="waves-effect logo" href="#!" id="input"><i
-				class="material-icons">cloud_upload</i>Input</a></li>
+				class="material-icons">cloud_upload</i>Outbound EDIFACT</a></li>
 		<li><a class="waves-effect logo" href="#!" id="result"><i
 				class="material-icons">cloud_download</i>Results</a></li>
 	</ul>

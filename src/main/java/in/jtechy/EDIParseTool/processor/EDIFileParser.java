@@ -76,7 +76,7 @@ public class EDIFileParser {
     }
 
     private static void writeToExcel(Map<String, Object> resultMap, Path outputFilePath) {
-        Path excelFilePath = outputFilePath.resolve("EDIFACT_LOADSHEET.xls");
+        Path excelFilePath = outputFilePath.resolve("EDIFACT_OB_LOADSHEET.xls");
         try {
             FileInputStream inputStream = new FileInputStream(excelFilePath.toFile());
             Workbook workbook = WorkbookFactory.create(inputStream);
@@ -86,7 +86,7 @@ public class EDIFileParser {
             int rowCount = sheet.getLastRowNum();
             Row row = sheet.createRow(++rowCount);
 
-            int columnCount = 0;
+            int columnCount = 1;
             Cell cell = row.createCell(columnCount);
             //cell.setCellValue(rowCount);
 
@@ -95,15 +95,15 @@ public class EDIFileParser {
 
             // Hardcode values
             cell = row.createCell(8);   cell.setCellValue("IMMEDIATE");
-            cell = row.createCell(20);   cell.setCellValue("27");   //TP Segment Terminator
-            cell = row.createCell(21);   cell.setCellValue("2B");   //TP Element Delimiter
-            cell = row.createCell(22);   cell.setCellValue("3A");   //TP Sub Element Delimiter
-            cell = row.createCell(23);   cell.setCellValue("3F");   //TP Release Character
-            cell = row.createCell(27);   cell.setCellValue("NO");   //Perform Sequence Number Check
-            cell = row.createCell(28);   cell.setCellValue("NO");   //Perform Duplicate Control Check
-            cell = row.createCell(30);   cell.setCellValue("1");   //UNG Local Control Number
-            cell = row.createCell(31);   cell.setCellValue("1");   //UNH Local Control Number
-            cell = row.createCell(37);   cell.setCellValue("EDIFACT");   //Standards Board
+            cell = row.createCell(19);   cell.setCellValue("27");   //TP Segment Terminator
+            cell = row.createCell(20);   cell.setCellValue("2B");   //TP Element Delimiter
+            cell = row.createCell(21);   cell.setCellValue("3A");   //TP Sub Element Delimiter
+            cell = row.createCell(22);   cell.setCellValue("3F");   //TP Release Character
+            cell = row.createCell(26);   cell.setCellValue("NO");   //Perform Sequence Number Check
+            cell = row.createCell(27);   cell.setCellValue("NO");   //Perform Duplicate Control Check
+            cell = row.createCell(29);   cell.setCellValue("1");   //UNG Local Control Number
+            cell = row.createCell(30);   cell.setCellValue("1");   //UNH Local Control Number
+            cell = row.createCell(36);   cell.setCellValue("EDIFACT");   //Standards Board
 
             cell = row.createCell(12); //UNA YES or NO
             if((boolean)resultMap.get("UNA")) {
@@ -136,31 +136,31 @@ public class EDIFileParser {
                     cell.setCellValue(resultMap.get("UNB3.1").toString());
                 }
             }
-            cell = row.createCell(46); //UNB02.3 Sender EDI ID
+            cell = row.createCell(45); //UNB02.3 Sender EDI ID
             if((boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB3.3")!=null) {
                     cell.setCellValue(resultMap.get("UNB3.3").toString());
                 }
             }
-            cell = row.createCell(40); //UNB03.2 Receiver Qualifier
+            cell = row.createCell(39); //UNB03.2 Receiver Qualifier
             if((boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB4.2")!=null) {
                     cell.setCellValue(resultMap.get("UNB4.2").toString());
                 }
             }
-            cell = row.createCell(41); //UNB03.1 Receiver EDI ID
+            cell = row.createCell(40); //UNB03.1 Receiver EDI ID
             if((boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB4.1")!=null) {
                     cell.setCellValue(resultMap.get("UNB4.1").toString());
                 }
             }
-            cell = row.createCell(47); //UNB03.3 Sender EDI ID
+            cell = row.createCell(46); //UNB03.3 Sender EDI ID
             if((boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB4.3")!=null) {
                     cell.setCellValue(resultMap.get("UNB4.3").toString());
                 }
             }
-            cell = row.createCell(29);  //UNB05 Local Control Number
+            cell = row.createCell(28);  //UNB05 Local Control Number
             if((boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB6.1")!=null) {
                     cell.setCellValue(resultMap.get("UNB6.1").toString());
@@ -172,12 +172,13 @@ public class EDIFileParser {
                     cell.setCellValue(resultMap.get("UNB8.1").toString());
                 }
             }
-            cell = row.createCell(49); //UNB10 Communications agreement identification
+            cell = row.createCell(48); //UNB10 Communications agreement identification
             if((boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB11.1")!=null) {
                     cell.setCellValue("UNB10 = " + resultMap.get("UNB11.1").toString());
                 }
             }
+
             cell = row.createCell(7); //UNB11 TEST INDICATION
             if((boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB12.1")!=null) {
@@ -192,11 +193,11 @@ public class EDIFileParser {
                 if(resultMap.get("UNG3.1")!=null) {
                     cell.setCellValue(resultMap.get("UNG3.1").toString());
                 }
-                cell = row.createCell(42); //UNG03.1 RECEIVER'S IDENTIFICATION
+                cell = row.createCell(41); //UNG03.1 RECEIVER'S IDENTIFICATION
                 if(resultMap.get("UNG4.1")!=null) {
                     cell.setCellValue(resultMap.get("UNG4.1").toString());
                 }
-                cell = row.createCell(30); //UNG05 FUNCTION GROUP REFERENCE NUMBER
+                cell = row.createCell(29); //UNG05 FUNCTION GROUP REFERENCE NUMBER
                 if(resultMap.get("UNG6.1")!=null) {
                     cell.setCellValue(resultMap.get("UNG6.1").toString());
                 }
@@ -205,31 +206,31 @@ public class EDIFileParser {
             else {
                 cell.setCellValue("NO");
             }
-            cell = row.createCell(34); //UNH02.1 MESSAGE TYPE IDENTIFIER
+            cell = row.createCell(33); //UNH02.1 MESSAGE TYPE IDENTIFIER
             if((boolean)resultMap.get("UNH")) {
                 if(resultMap.get("UNH3.1")!=null) {
                     cell.setCellValue(resultMap.get("UNH3.1").toString());
                 }
             }
-            cell = row.createCell(35); //UNH02.2 MESSAGE TYPE VERSION NUMBER
+            cell = row.createCell(34); //UNH02.2 MESSAGE TYPE VERSION NUMBER
             if((boolean)resultMap.get("UNH")) {
                 if(resultMap.get("UNH3.2")!=null) {
                     cell.setCellValue(resultMap.get("UNH3.2").toString());
                 }
             }
-            cell = row.createCell(33); //UNH02.3 MESSAGE TYPE RELEASE NUMBER
+            cell = row.createCell(32); //UNH02.3 MESSAGE TYPE RELEASE NUMBER
             if((boolean)resultMap.get("UNH")) {
                 if(resultMap.get("UNH3.3")!=null) {
                     cell.setCellValue(resultMap.get("UNH3.3").toString());
                 }
             }
-            cell = row.createCell(36); //UNH02.4 CONTROLLING AGENCY
+            cell = row.createCell(35); //UNH02.4 CONTROLLING AGENCY
             if((boolean)resultMap.get("UNH")) {
                 if(resultMap.get("UNH3.4")!=null) {
                     cell.setCellValue(resultMap.get("UNH3.4").toString());
                 }
             }
-            cell = row.createCell(32); //UNH02.5 ASSOCIATION ASSIGNED CODE
+            cell = row.createCell(31); //UNH02.5 ASSOCIATION ASSIGNED CODE
             if((boolean)resultMap.get("UNH")) {
                 if(resultMap.get("UNH3.5")!=null) {
                     cell.setCellValue(resultMap.get("UNH3.5").toString());
