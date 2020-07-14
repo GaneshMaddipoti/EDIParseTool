@@ -11,13 +11,19 @@ public interface StorageService {
 
 	void init();
 
-	void store(MultipartFile[] file) throws IOException;
+	void ediIbUpload(MultipartFile[] file) throws IOException;
 
-	Stream<Path> loadAll();
+	void ediObUpload(MultipartFile[] file) throws IOException;
 
-	Path load(String filename);
+	Stream<Path> loadIbFiles();
 
-	Resource loadAsResource(String filename);
+	Stream<Path> loadObFiles();
+
+	Path loadIb(String filename);
+	Path loadOb(String filename);
+
+	Resource loadIbResource(String filename);
+	Resource loadObResource(String filename);
 
 	void deleteAll();
 

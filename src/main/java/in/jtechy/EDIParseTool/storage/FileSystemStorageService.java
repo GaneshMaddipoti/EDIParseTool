@@ -21,49 +21,81 @@ import java.util.stream.Stream;
 @Service
 public class FileSystemStorageService implements StorageService {
 
-	private final Path rootLocation;
-	private final Path downloadLocation;
+	private final Path ediIbUploadLocation;
+	private final Path ediObUploadLocation;
+	private final Path ediIbDownloadLocation;
+	private final Path ediObDownloadLocation;
 
 	@Autowired
 	public FileSystemStorageService(StorageProperties properties) {
-		this.rootLocation = Paths.get(properties.getLocation());
-		this.downloadLocation = Paths.get(properties.getDownLoadLocation());
+		this.ediIbUploadLocation = Paths.get("edi-ib-upload-dir");
+		this.ediObUploadLocation = Paths.get("edi-ob-upload-dir");
+		this.ediIbDownloadLocation = Paths.get("edi-ib-download-dir");
+		this.ediObDownloadLocation = Paths.get("edi-ob-download-dir");
 	}
 
 	@Override
-	public void store(MultipartFile[] file) throws IOException {
+	public void ediIbUpload(MultipartFile[] file) throws IOException {
 		for(MultipartFile multipartFile : file) {
 			String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			try (InputStream inputStream = multipartFile.getInputStream()) {
-				Files.copy(inputStream, this.rootLocation.resolve(filename),
+				Files.copy(inputStream, this.ediIbUploadLocation.resolve(filename),
 						StandardCopyOption.REPLACE_EXISTING);
 			}
-			EDIFileParser.parse(rootLocation.resolve(filename), downloadLocation);
+			EDIFileParser.parse(ediIbUploadLocation.resolve(filename), ediIbDownloadLocation);
 		}
 	}
 
 	@Override
-	public Stream<Path> loadAll() {
+	public void ediObUpload(MultipartFile[] file) throws IOException {
+		for(MultipartFile multipartFile : file) {
+			String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			try (InputStream inputStream = multipartFile.getInputStream()) {
+				Files.copy(inputStream, this.ediObUploadLocation.resolve(filename),
+						StandardCopyOption.REPLACE_EXISTING);
+			}
+			EDIFileParser.parse(ediObUploadLocation.resolve(filename), ediObDownloadLocation);
+		}
+	}
+
+	@Override
+	public Stream<Path> loadIbFiles() {
 		try {
-			return Files.walk(this.downloadLocation, 1)
-				.filter(path -> !path.equals(this.downloadLocation))
-				.map(this.downloadLocation::relativize);
+			return Files.walk(this.ediIbDownloadLocation, 1)
+					.filter(path -> !path.equals(this.ediIbDownloadLocation))
+					.map(this.ediIbDownloadLocation::relativize);
 		}
 		catch (IOException e) {
 			throw new StorageException("Failed to read stored files", e);
 		}
-
 	}
 
 	@Override
-	public Path load(String filename) {
-		return downloadLocation.resolve(filename);
-	}
-
-	@Override
-	public Resource loadAsResource(String filename) {
+	public Stream<Path> loadObFiles() {
 		try {
-			Path file = load(filename);
+			return Files.walk(this.ediObDownloadLocation, 1)
+				.filter(path -> !path.equals(this.ediObDownloadLocation))
+				.map(this.ediObDownloadLocation::relativize);
+		}
+		catch (IOException e) {
+			throw new StorageException("Failed to read stored files", e);
+		}
+	}
+
+	@Override
+	public Path loadIb(String filename) {
+		return ediIbDownloadLocation.resolve(filename);
+	}
+
+	@Override
+	public Path loadOb(String filename) {
+		return ediObDownloadLocation.resolve(filename);
+	}
+
+	@Override
+	public Resource loadIbResource(String filename) {
+		try {
+			Path file = loadIb(filename);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
@@ -71,7 +103,24 @@ public class FileSystemStorageService implements StorageService {
 			else {
 				throw new StorageFileNotFoundException(
 						"Could not read file: " + filename);
+			}
+		}
+		catch (MalformedURLException e) {
+			throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+		}
+	}
 
+	@Override
+	public Resource loadObResource(String filename) {
+		try {
+			Path file = loadOb(filename);
+			Resource resource = new UrlResource(file.toUri());
+			if (resource.exists() || resource.isReadable()) {
+				return resource;
+			}
+			else {
+				throw new StorageFileNotFoundException(
+						"Could not read file: " + filename);
 			}
 		}
 		catch (MalformedURLException e) {
@@ -81,14 +130,16 @@ public class FileSystemStorageService implements StorageService {
 
 	@Override
 	public void deleteAll() {
-		FileSystemUtils.deleteRecursively(rootLocation.toFile());
+		//FileSystemUtils.deleteRecursively(rootLocation.toFile());
 	}
 
 	@Override
 	public void init() {
 		try {
-			Files.createDirectories(rootLocation);
-			Files.createDirectories(downloadLocation);
+			Files.createDirectories(ediIbUploadLocation);
+			Files.createDirectories(ediObUploadLocation);
+			Files.createDirectories(ediIbDownloadLocation);
+			Files.createDirectories(ediObDownloadLocation);
 		}
 		catch (IOException e) {
 			throw new StorageException("Could not initialize storage", e);

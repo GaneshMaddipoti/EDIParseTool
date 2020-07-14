@@ -30,9 +30,9 @@ public class HomeController {
     @GetMapping("/edifact_inbound_result")
     public String getEdifactInboundResults(Model model) throws IOException {
 
-        model.addAttribute("files", storageService.loadAll().map(
+        model.addAttribute("files", storageService.loadIbFiles().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(HomeController.class,
-                        "serveFile", path.getFileName().toString()).build().toUri().toString())
+                        "serveIbFile", path.getFileName().toString()).build().toUri().toString())
                 .collect(Collectors.toList()));
 
         return "edifact_inbound_result";
@@ -41,9 +41,9 @@ public class HomeController {
     @GetMapping("/edifact_outbound_result")
     public String getEdifactOutboundResults(Model model) throws IOException {
 
-        model.addAttribute("files", storageService.loadAll().map(
+        model.addAttribute("files", storageService.loadObFiles().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(HomeController.class,
-                        "serveFile", path.getFileName().toString()).build().toUri().toString())
+                        "serveObFile", path.getFileName().toString()).build().toUri().toString())
                 .collect(Collectors.toList()));
 
         return "edifact_outbound_result";
@@ -51,21 +51,40 @@ public class HomeController {
 
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+    public ResponseEntity<Resource> serveIbFile(@PathVariable String filename) {
 
-        Resource file = storageService.loadAsResource(filename);
+        Resource file = storageService.loadIbResource(filename);
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile[] file,
+    @GetMapping("/files/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveObFile(@PathVariable String filename) {
+
+        Resource file = storageService.loadObResource(filename);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+    @PostMapping("/uploadEDIFactInbound")
+    public String handleIbFileUpload(@RequestParam("file") MultipartFile[] file,
                                    Model model) throws IOException {
-        storageService.store(file);
+        storageService.ediIbUpload(file);
         model.addAttribute("message",
                 "You successfully uploaded " + file.toString() + "!");
 
-        return "home";
+        return "edifact_ib_input";
+    }
+
+    @PostMapping("/uploadEDIFactOutbound")
+    public String handleObFileUpload(@RequestParam("file") MultipartFile[] file,
+                                   Model model) throws IOException {
+        storageService.ediObUpload(file);
+        model.addAttribute("message",
+                "You successfully uploaded " + file.toString() + "!");
+
+        return "edifact_ob_input";
     }
 
     @GetMapping("/edifact_ib_input")

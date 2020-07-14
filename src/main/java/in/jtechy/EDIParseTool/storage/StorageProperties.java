@@ -10,14 +10,24 @@ public class StorageProperties {
 	/**
 	 * Folder location for storing files
 	 */
-	private String location = "upload-dir";
 
-	public String getLocation() {
-		return location;
+	private String ediIbUploadLocation = "edi-ib-upload-dir";
+	private String ediObUploadLocation = "edi-ob-upload-dir";
+
+	public String getEdiIbUploadLocation() {
+		return ediIbUploadLocation;
 	}
 
-	public void setLocation(String location) {
-		this.location = location;
+	public void setEdiIbUploadLocation(String ediIbUploadLocation) {
+		this.ediIbUploadLocation = ediIbUploadLocation;
+	}
+
+	public String getEdiObUploadLocation() {
+		return ediObUploadLocation;
+	}
+
+	public void setEdiObUploadLocation(String ediObUploadLocation) {
+		this.ediObUploadLocation = ediObUploadLocation;
 	}
 
 	private String downLoadLocation = "download-dir";
