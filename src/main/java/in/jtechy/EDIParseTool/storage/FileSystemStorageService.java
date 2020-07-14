@@ -31,13 +31,15 @@ public class FileSystemStorageService implements StorageService {
 	}
 
 	@Override
-	public void store(MultipartFile file) throws IOException {
-		String filename = StringUtils.cleanPath(file.getOriginalFilename());
-		try (InputStream inputStream = file.getInputStream()) {
-			Files.copy(inputStream, this.rootLocation.resolve(filename),
-					StandardCopyOption.REPLACE_EXISTING);
+	public void store(MultipartFile[] file) throws IOException {
+		for(MultipartFile multipartFile : file) {
+			String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			try (InputStream inputStream = multipartFile.getInputStream()) {
+				Files.copy(inputStream, this.rootLocation.resolve(filename),
+						StandardCopyOption.REPLACE_EXISTING);
+			}
+			EDIFileParser.parse(rootLocation.resolve(filename), downloadLocation);
 		}
-		EDIFileParser.parse(rootLocation.resolve(filename), downloadLocation);
 	}
 
 	@Override

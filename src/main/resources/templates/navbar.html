@@ -24,24 +24,45 @@
 				<i class="material-icons iconlarge" id="userPic">person_pin</i>
 			</div>
 		</li>
+
+		<li><a class="subheader">Input</a></li>
+		<li><div class="divider"></div></li>
+
 		<li><a class="waves-effect logo" href="#!" id="edifact_inbound"><i
 				class="material-icons">cloud_upload</i>Inbound EDIFACT</a></li>
 
-		<li><a class="waves-effect logo" href="#!" id="input"><i
+		<li><a class="waves-effect logo" href="#!" id="edifact_outbound"><i
 				class="material-icons">cloud_upload</i>Outbound EDIFACT</a></li>
-		<li><a class="waves-effect logo" href="#!" id="result"><i
-				class="material-icons">cloud_download</i>Results</a></li>
+
+		<li><a class="subheader">Results</a></li>
+		<li><div class="divider"></div></li>
+
+		<li><a class="waves-effect logo" href="#!" id="edifact_inbound_result"><i
+				class="material-icons">cloud_download</i>Inbound EDIFACT</a></li>
+
+		<li><a class="waves-effect logo" href="#!" id="edifact_outbound_result"><i
+				class="material-icons">cloud_download</i>Outbound EDIFACT</a></li>
 	</ul>
 </nav>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $(".button-collapse").sideNav();
-        $("#input").click(function() {
-            $("#main-content").load("input");
+
+        $("#edifact_inbound").click(function() {
+            $("#main-content").load("edifact_ib_input");
         })
-        $("#result").click(function() {
-            $("#main-content").load("result");
+
+        $("#edifact_outbound").click(function() {
+            $("#main-content").load("edifact_ob_input");
+        })
+
+        $("#edifact_inbound_result").click(function() {
+            $("#main-content").load("edifact_inbound_result");
+        })
+
+        $("#edifact_outbound_result").click(function() {
+            $("#main-content").load("edifact_outbound_result");
         })
     });
 </script>

@@ -1,0 +1,22 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<div class="container">
+    <br/>
+    Inbound EDIFACT Results
+    <div class="card">
+        <div class="card-content">
+            <table>
+                <thead>
+                <tr>
+                    <th>File Name</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="file : ${files}">
+                    <td><a th:href="${file}" th:text="${file}" /></td>
+                </tr>
+        </div>
+    </div>
+</div>

@@ -27,15 +27,26 @@ public class HomeController {
         return "home";
     }
 
-    @GetMapping("/result")
-    public String listUploadedFiles(Model model) throws IOException {
+    @GetMapping("/edifact_inbound_result")
+    public String getEdifactInboundResults(Model model) throws IOException {
 
         model.addAttribute("files", storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(HomeController.class,
                         "serveFile", path.getFileName().toString()).build().toUri().toString())
                 .collect(Collectors.toList()));
 
-        return "result";
+        return "edifact_inbound_result";
+    }
+
+    @GetMapping("/edifact_outbound_result")
+    public String getEdifactOutboundResults(Model model) throws IOException {
+
+        model.addAttribute("files", storageService.loadAll().map(
+                path -> MvcUriComponentsBuilder.fromMethodName(HomeController.class,
+                        "serveFile", path.getFileName().toString()).build().toUri().toString())
+                .collect(Collectors.toList()));
+
+        return "edifact_outbound_result";
     }
 
     @GetMapping("/files/{filename:.+}")
@@ -48,19 +59,23 @@ public class HomeController {
     }
 
     @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+    public String handleFileUpload(@RequestParam("file") MultipartFile[] file,
                                    Model model) throws IOException {
-
         storageService.store(file);
         model.addAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
+                "You successfully uploaded " + file.toString() + "!");
 
         return "home";
     }
 
-    @GetMapping("/input")
-    public String input() {
-        return "input";
+    @GetMapping("/edifact_ib_input")
+    public String getIbInput() {
+        return "edifact_ib_input";
+    }
+
+    @GetMapping("/edifact_ob_input")
+    public String getObInput() {
+        return "edifact_ob_input";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)
