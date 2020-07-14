@@ -1,11 +1,11 @@
 package in.jtechy.EDIParseTool.storage;
 
-import in.jtechy.EDIParseTool.processor.EDIFileParser;
+import in.jtechy.EDIParseTool.processor.EDIIBFileParser;
+import in.jtechy.EDIParseTool.processor.EDIOBFileParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,7 +42,7 @@ public class FileSystemStorageService implements StorageService {
 				Files.copy(inputStream, this.ediIbUploadLocation.resolve(filename),
 						StandardCopyOption.REPLACE_EXISTING);
 			}
-			EDIFileParser.parse(ediIbUploadLocation.resolve(filename), ediIbDownloadLocation);
+			EDIIBFileParser.parse(ediIbUploadLocation.resolve(filename), ediIbDownloadLocation);
 		}
 	}
 
@@ -54,7 +54,7 @@ public class FileSystemStorageService implements StorageService {
 				Files.copy(inputStream, this.ediObUploadLocation.resolve(filename),
 						StandardCopyOption.REPLACE_EXISTING);
 			}
-			EDIFileParser.parse(ediObUploadLocation.resolve(filename), ediObDownloadLocation);
+			EDIOBFileParser.parse(ediObUploadLocation.resolve(filename), ediObDownloadLocation);
 		}
 	}
 

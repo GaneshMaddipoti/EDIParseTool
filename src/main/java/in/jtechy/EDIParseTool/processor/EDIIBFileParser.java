@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class EDIFileParser {
+public class EDIIBFileParser {
 
     public static void parse(Path inputFile, Path outputFilePath) throws IOException {
         Map<String, Object> resultMap = new HashMap<>();
@@ -73,7 +73,7 @@ public class EDIFileParser {
     }
 
     private static void writeToExcel(Map<String, Object> resultMap, Path outputFilePath) {
-        Path excelFilePath = outputFilePath.resolve("EDIFACT_OB_LOADSHEET.xls");
+        Path excelFilePath = outputFilePath.resolve("EDIFACT_IB_LOADSHEET.xls");
         try {
             FileInputStream inputStream = new FileInputStream(excelFilePath.toFile());
             Workbook workbook = WorkbookFactory.create(inputStream);
