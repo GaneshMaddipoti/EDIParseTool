@@ -91,16 +91,15 @@ public class EDIIBFileParser {
             //cell.setCellValue("test");
 
             // Hardcode values
-            cell = row.createCell(8);   cell.setCellValue("IMMEDIATE");
+            cell = row.createCell(8);   cell.setCellValue("NO"); // Perform UNB Duplicate Control Number Check
+            cell = row.createCell(9);   cell.setCellValue("NO"); // Perform UNB Sequence Check
+            cell = row.createCell(10);   cell.setCellValue("YES"); // Translate W/ defult GIS Transactions
+            cell = row.createCell(11);   cell.setCellValue("YES"); // Validate Output
             cell = row.createCell(19);   cell.setCellValue("27");   //TP Segment Terminator
             cell = row.createCell(20);   cell.setCellValue("2B");   //TP Element Delimiter
             cell = row.createCell(21);   cell.setCellValue("3A");   //TP Sub Element Delimiter
-            cell = row.createCell(22);   cell.setCellValue("3F");   //TP Release Character
-            cell = row.createCell(26);   cell.setCellValue("NO");   //Perform Sequence Number Check
-            cell = row.createCell(27);   cell.setCellValue("NO");   //Perform Duplicate Control Check
-            cell = row.createCell(29);   cell.setCellValue("1");   //UNG Local Control Number
-            cell = row.createCell(30);   cell.setCellValue("1");   //UNH Local Control Number
-            cell = row.createCell(36);   cell.setCellValue("EDIFACT");   //Standards Board
+            cell = row.createCell(23);   cell.setCellValue("3F");   //TP Release Character
+            cell = row.createCell(29);   cell.setCellValue("EDIFACT");   //Standards Board
 
             cell = row.createCell(12); //UNA YES or NO
             if((boolean)resultMap.get("UNA")) {
