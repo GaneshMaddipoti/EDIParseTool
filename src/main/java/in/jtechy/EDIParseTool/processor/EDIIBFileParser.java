@@ -69,6 +69,7 @@ public class EDIIBFileParser {
             }
             line = bufferedReader.readLine();
         }
+        bufferedReader.close();
         writeToExcel(resultMap, outputFilePath);
     }
 

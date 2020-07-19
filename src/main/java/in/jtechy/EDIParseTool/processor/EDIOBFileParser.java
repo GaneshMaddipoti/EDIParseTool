@@ -69,6 +69,7 @@ public class EDIOBFileParser {
             }
             line = bufferedReader.readLine();
         }
+        bufferedReader.close();
         writeToExcel(resultMap, outputFilePath);
     }
 
@@ -103,87 +104,87 @@ public class EDIOBFileParser {
             cell = row.createCell(36);   cell.setCellValue("EDIFACT");   //Standards Board
 
             cell = row.createCell(12); //UNA YES or NO
-            if((boolean)resultMap.get("UNA")) {
+            if(resultMap.containsKey("UNA") && (boolean)resultMap.get("UNA")) {
                 cell.setCellValue("YES");
             }else {
                 cell.setCellValue("NO");
             }
 
             cell = row.createCell(9); //UNB01.1 Syntax Indentifier
-            if((boolean)resultMap.get("UNB")) {
+            if(resultMap.containsKey("UNB") && (boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB2.1")!=null) {
                     cell.setCellValue(resultMap.get("UNB2.1").toString());
                 }
             }
             cell = row.createCell(10); //UNB01.2 Syntax Version Number
-            if((boolean)resultMap.get("UNB")) {
+            if(resultMap.containsKey("UNB") && (boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB2.2")!=null) {
                     cell.setCellValue(resultMap.get("UNB2.2").toString());
                 }
             }
             cell = row.createCell(15); //UNB02.2 Sender Qualifier
-            if((boolean)resultMap.get("UNB")) {
+            if(resultMap.containsKey("UNB") && (boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB3.2")!=null) {
                     cell.setCellValue(resultMap.get("UNB3.2").toString());
                 }
             }
             cell = row.createCell(16); //UNB02.1 Sender EDI ID
-            if((boolean)resultMap.get("UNB")) {
+            if(resultMap.containsKey("UNB") && (boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB3.1")!=null) {
                     cell.setCellValue(resultMap.get("UNB3.1").toString());
                 }
             }
             cell = row.createCell(45); //UNB02.3 Sender EDI ID
-            if((boolean)resultMap.get("UNB")) {
+            if(resultMap.containsKey("UNB") && (boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB3.3")!=null) {
                     cell.setCellValue(resultMap.get("UNB3.3").toString());
                 }
             }
             cell = row.createCell(39); //UNB03.2 Receiver Qualifier
-            if((boolean)resultMap.get("UNB")) {
+            if(resultMap.containsKey("UNB") && (boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB4.2")!=null) {
                     cell.setCellValue(resultMap.get("UNB4.2").toString());
                 }
             }
             cell = row.createCell(40); //UNB03.1 Receiver EDI ID
-            if((boolean)resultMap.get("UNB")) {
+            if(resultMap.containsKey("UNB") && (boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB4.1")!=null) {
                     cell.setCellValue(resultMap.get("UNB4.1").toString());
                 }
             }
             cell = row.createCell(46); //UNB03.3 Sender EDI ID
-            if((boolean)resultMap.get("UNB")) {
+            if(resultMap.containsKey("UNB") && (boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB4.3")!=null) {
                     cell.setCellValue(resultMap.get("UNB4.3").toString());
                 }
             }
             cell = row.createCell(28);  //UNB05 Local Control Number
-            if((boolean)resultMap.get("UNB")) {
+            if(resultMap.containsKey("UNB") && (boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB6.1")!=null) {
                     cell.setCellValue(resultMap.get("UNB6.1").toString());
                 }
             }
             cell = row.createCell(11); //UNB07 Application Reference
-            if((boolean)resultMap.get("UNB")) {
+            if(resultMap.containsKey("UNB") && (boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB8.1")!=null) {
                     cell.setCellValue(resultMap.get("UNB8.1").toString());
                 }
             }
             cell = row.createCell(48); //UNB10 Communications agreement identification
-            if((boolean)resultMap.get("UNB")) {
+            if(resultMap.containsKey("UNB") && (boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB11.1")!=null) {
                     cell.setCellValue("UNB10 = " + resultMap.get("UNB11.1").toString());
                 }
             }
 
             cell = row.createCell(7); //UNB11 TEST INDICATION
-            if((boolean)resultMap.get("UNB")) {
+            if(resultMap.containsKey("UNB") && (boolean)resultMap.get("UNB")) {
                 if(resultMap.get("UNB12.1")!=null) {
                     cell.setCellValue("T"); }
                     else cell.setCellValue("P");
             }
             cell = row.createCell(13); //UNG YES or NO
-            if((boolean)resultMap.get("UNG")) {
+            if(resultMap.containsKey("UNG") && (boolean)resultMap.get("UNG")) {
                 cell.setCellValue("YES");
 
                 cell = row.createCell(17); //UNG02.1 SENDER'S IDENTIFICATION
@@ -204,31 +205,31 @@ public class EDIOBFileParser {
                 cell.setCellValue("NO");
             }
             cell = row.createCell(33); //UNH02.1 MESSAGE TYPE IDENTIFIER
-            if((boolean)resultMap.get("UNH")) {
+            if(resultMap.containsKey("UNH") && (boolean)resultMap.get("UNH")) {
                 if(resultMap.get("UNH3.1")!=null) {
                     cell.setCellValue(resultMap.get("UNH3.1").toString());
                 }
             }
             cell = row.createCell(34); //UNH02.2 MESSAGE TYPE VERSION NUMBER
-            if((boolean)resultMap.get("UNH")) {
+            if(resultMap.containsKey("UNH") && (boolean)resultMap.get("UNH")) {
                 if(resultMap.get("UNH3.2")!=null) {
                     cell.setCellValue(resultMap.get("UNH3.2").toString());
                 }
             }
             cell = row.createCell(32); //UNH02.3 MESSAGE TYPE RELEASE NUMBER
-            if((boolean)resultMap.get("UNH")) {
+            if(resultMap.containsKey("UNH") && (boolean)resultMap.get("UNH")) {
                 if(resultMap.get("UNH3.3")!=null) {
                     cell.setCellValue(resultMap.get("UNH3.3").toString());
                 }
             }
             cell = row.createCell(35); //UNH02.4 CONTROLLING AGENCY
-            if((boolean)resultMap.get("UNH")) {
+            if(resultMap.containsKey("UNH") && (boolean)resultMap.get("UNH")) {
                 if(resultMap.get("UNH3.4")!=null) {
                     cell.setCellValue(resultMap.get("UNH3.4").toString());
                 }
             }
             cell = row.createCell(31); //UNH02.5 ASSOCIATION ASSIGNED CODE
-            if((boolean)resultMap.get("UNH")) {
+            if(resultMap.containsKey("UNH") && (boolean)resultMap.get("UNH")) {
                 if(resultMap.get("UNH3.5")!=null) {
                     cell.setCellValue(resultMap.get("UNH3.5").toString());
                 }
