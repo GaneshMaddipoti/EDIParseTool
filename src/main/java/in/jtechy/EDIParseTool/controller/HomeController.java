@@ -72,9 +72,9 @@ public class HomeController {
                                    Model model) throws IOException {
         storageService.ediIbUpload(file);
         model.addAttribute("message",
-                "You successfully uploaded " + file.toString() + "!");
+                "You successfully uploaded ");
 
-        return "edifact_ib_input";
+        return "home";
     }
 
     @PostMapping("/uploadEDIFactOutbound")
@@ -82,9 +82,9 @@ public class HomeController {
                                    Model model) throws IOException {
         storageService.ediObUpload(file);
         model.addAttribute("message",
-                "You successfully uploaded " + file.toString() + "!");
+                "You successfully uploaded ");
 
-        return "edifact_ob_input";
+        return "home";
     }
 
     @GetMapping("/edifact_ib_input")
