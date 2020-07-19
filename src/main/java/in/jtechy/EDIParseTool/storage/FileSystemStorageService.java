@@ -42,20 +42,23 @@ public class FileSystemStorageService implements StorageService {
 				Files.copy(inputStream, this.ediIbUploadLocation.resolve(filename),
 						StandardCopyOption.REPLACE_EXISTING);
 			}
-			EDIIBFileParser.parse(ediIbUploadLocation.resolve(filename), ediIbDownloadLocation);
+			EDIIBFileParser.parse(ediIbUploadLocation.resolve(filename));
 		}
+		EDIIBFileParser.writeToExcel(ediIbDownloadLocation);
 	}
 
 	@Override
 	public void ediObUpload(MultipartFile[] file) throws IOException {
+		EDIOBFileParser.cleanResultMaps();
 		for(MultipartFile multipartFile : file) {
 			String filename = StringUtils.cleanPath(multipartFile.getOriginalFilename());
 			try (InputStream inputStream = multipartFile.getInputStream()) {
 				Files.copy(inputStream, this.ediObUploadLocation.resolve(filename),
 						StandardCopyOption.REPLACE_EXISTING);
 			}
-			EDIOBFileParser.parse(ediObUploadLocation.resolve(filename), ediObDownloadLocation);
+			EDIOBFileParser.parse(ediObUploadLocation.resolve(filename));
 		}
+		EDIOBFileParser.writeToExcel(ediObDownloadLocation);
 	}
 
 	@Override
